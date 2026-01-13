@@ -15,7 +15,7 @@ class Elemen extends Model
         'id'=>'string',
     ];
     protected $fillable=[
-        'id', 'nama', 'satuan', 'keterangan','status','parent_id','opd_id','wilayah_id'
+        'id', 'nama', 'satuan', 'keterangan','status','parent_id','opd_id','wilayah_id','bidang','penanggung_jawab','cakupan_data'
     ];
 
     public function data()

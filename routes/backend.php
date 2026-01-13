@@ -102,9 +102,11 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         Route::resource('data', 'dataController');
 
         // elemen
+        Route::post('updatemeta', 'elemenController@updatemeta')->name('elemen.updatemeta');
         Route::prefix('elemen')->as('elemen')->group(function () {
             Route::get('/data/{id?}', 'elemenController@data');
             Route::get('/hapus/{id}', 'elemenController@hapus');
+           
             Route::get('/save/{id}', 'elemenController@save');
             Route::get('/create_child/{id}', 'elemenController@create_child');
             Route::post('/store_elemen', 'elemenController@store_elemen');
