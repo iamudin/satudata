@@ -9,7 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Wilayah;
 use App\Model\Data;
-
+use App\Helpers\Help;
 class elemenController extends Controller
 {
     /**
@@ -27,7 +27,16 @@ class elemenController extends Controller
             $validator = Validator::make($r->all(), [
                 'bidang' => 'required',
                 'penanggung_jawab' => 'required',
-                'cakupan_data' => 'required'
+                'cakupan_data' => 'required',
+                'md_pengukuran_dataset' => 'nullable',
+                'md_tahun' => 'nullable',
+                'md_definisi' => 'nullable',
+                'md_kodeindikator' => 'nullable',
+                'md_bidangurusan' => 'nullable',
+                'md_frekuensidataset' => 'nullable',
+                'md_satuandataset' => 'nullable',
+                'md_sumberexternal' => 'nullable',
+                'md_dimensidataset' => 'nullable',
             ]);
             if ($validator->fails()) {
                 $response = ['status' => FALSE, 'pesan' => $validator->messages()];
@@ -49,6 +58,18 @@ class elemenController extends Controller
         if ($request->ajax()) {
             $data = $id != NULL ? $this->model::whereParentId($id)->whereOpdId(Auth::user()->opd_id)->get() : $this->model::whereNull('parent_id')->whereOpdId(Auth::user()->opd_id)->get();
             return Datatables::of($data)->addIndexColumn()
+                ->addColumn('metadata_info', function ($q) {
+                    $meta = Help::metadata_elemen($q->id);
+                    $list = '<ul class="list-group list-group-flush text-left">';
+                    foreach ($meta as $key => $value) {
+                        $list .= '<li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                                    ' . $key . '
+                                    <span class="badge badge-primary badge-pill">' . $value . '</span>
+                                </li>';
+                    }
+                    $list .= '</ul>';
+                    return $list;
+                })
                 ->addColumn('add_meta_button', function ($q) {
                     return '<div style="text-align: center;">
                             <button     class="btn btn-warning btn-sm editBtn"
@@ -56,6 +77,15 @@ class elemenController extends Controller
     data-bidang="' . $q->bidang . '"
     data-penanggung_jawab="' . $q->penanggung_jawab . '"
     data-cakupan_data="' . $q->cakupan_data . '"
+    data-md_pengukuran_dataset="' . $q->md_pengukuran_dataset . '"
+    data-md_tahun="' . $q->md_tahun . '"
+    data-md_definisi="' . $q->md_definisi . '"
+    data-md_kodeindikator="' . $q->md_kodeindikator . '"
+    data-md_bidangurusan="' . $q->md_bidangurusan . '"
+    data-md_frekuensidataset="' . $q->md_frekuensidataset . '"
+    data-md_satuandataset="' . $q->md_satuandataset . '"
+    data-md_sumberexternal="' . $q->md_sumberexternal . '"
+    data-md_dimensidataset="' . $q->md_dimensidataset . '"
     class="btn btn-sm btn-info">
                                 <i class="fa fa-database"></i> Metadata
                             </button>
@@ -83,7 +113,7 @@ class elemenController extends Controller
                <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" ' . $this->kode . '-id="{{ $id }}">
                    <i class="fa fa-trash text-danger"></i>
                </a>
-           </div>')->rawColumns(['add_rilis_button', 'add_meta_button', 'action', 'kelola'])->make(TRUE);
+           </div>')->rawColumns(['metadata_info', 'add_rilis_button', 'add_meta_button', 'action', 'kelola'])->make(TRUE);
         } else {
             exit("Not an AJAX request -_-");
         }

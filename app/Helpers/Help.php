@@ -12,6 +12,22 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 class Help extends Fungsi
 {
 
+    public static function metadata_elemen($element){
+        $meta = \App\Model\Elemen::with('data')->find($element);
+        return [
+        'Datatest diperbarui' => $meta->data->count() > 0 ? Help::shortDateTime($meta->data->max('updated_at')) : 'Data belum tersedia',
+        'Dataset dibuat'=>$meta->created_at ? Help::shortDateTime($meta->created_at) : '-',
+        'Pengukuran Dataset'=>$meta->md_pengukuran_dataset ?? '-',
+        'Tahun'=>$meta->md_tahun ?? '-',
+        'Definisi'=>$meta->md_definisi ?? '-',
+        'Kode Indikator'=>$meta->md_kodeindikator ?? '-',
+        'Bidang Urusan'=>$meta->md_bidangurusan ?? '-',
+        'Frekuensi Dataset'=>$meta->md_frekuensidataset ?? '-',
+        'Satuan Dataset'=>$meta->md_satuandataset ?? '-',
+        'Sumber External'=>$meta->md_sumberexternal ?? '-',
+        'Dimensi Dataset'=>$meta->md_dimensidataset ?? '-',
+        ];
+    }
     public static function menu(): ?array
     {
         if ($menu=Menu::whereKode(explode(".", Route::currentRouteName())[0])->first()) {

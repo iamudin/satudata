@@ -8,10 +8,11 @@ $(document).ready(function() {
         },
 		processing: true,
 		serverSide: true,
-		ajax: "{{ url($url_admin.'/'.$kode.'/data') }}",
+		ajax: "{{ url($url_admin . '/' . $kode . '/data') }}",
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{ data: 'nama' },
+				{ data: 'metadata_info', orderable: false, searchable: false},
 				{ data: 'add_meta_button', orderable: false, searchable: false},
 				{ data: 'add_rilis_button', orderable: false, searchable: false},
 				{ data: 'kelola'},
