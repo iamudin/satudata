@@ -15,6 +15,7 @@
 					<th class="width-1">No</th>
 					<th class="text-center">Elemen/Sub Elemen</th>
 					<th class="text-center">Meta Data</th>
+					<th class="text-center">Jadwal Rilis</th>
 					<th class="text-center">Kelola</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
