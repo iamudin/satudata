@@ -24,9 +24,9 @@
 			</div>
 		</div>
 		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-			<div class="modal-dialog" role="document">
+			<div class="modal-dialog" role="document" >
 				<form id="editForm">
-					<div class="modal-content">
+					<div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
 						<div class="modal-header">
 							<h5 class="modal-title">Edit Data</h5>
 							<button type="button" class="close" data-dismiss="modal">
